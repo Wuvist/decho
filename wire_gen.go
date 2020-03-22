@@ -7,16 +7,21 @@ package main
 
 import (
 	"github.com/Wuvist/decho/controller"
-	"github.com/labstack/echo/v4"
 )
 
 // Injectors from wire.go:
 
-func InitEngine(e *echo.Echo) (*controller.BlogController, error) {
-	string2 := newMsg()
-	blogController, err := controller.NewBlogController(e, string2)
+func getApp() (*webApp, error) {
+	config, err := loadTomlConf()
 	if err != nil {
 		return nil, err
 	}
-	return blogController, nil
+	echo := newEcho()
+	string2 := newMsg()
+	blogController, err := controller.NewBlogController(echo, string2)
+	if err != nil {
+		return nil, err
+	}
+	mainWebApp := newWebApp(config, echo, blogController)
+	return mainWebApp, nil
 }
