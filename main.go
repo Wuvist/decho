@@ -1,12 +1,15 @@
 package main
 
 import (
-	"github.com/Wuvist/decho/controller"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
 	e := echo.New()
-	controller.BindBlogController(e)
+	InitEngine(e)
 	e.Logger.Fatal(e.Start(":1323"))
+}
+
+func newMsg() string {
+	return "bingo"
 }

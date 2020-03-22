@@ -7,15 +7,20 @@ import (
 )
 
 // BlogController defines controller for blog module
-type BlogController struct{}
-
-func (controller *BlogController) hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World!")
+type BlogController struct {
+	msg string
 }
 
-// BindBlogController binds BlogController to echo engine
-func BindBlogController(e *echo.Echo) error {
-	blog := BlogController{}
+func (controller *BlogController) hello(c echo.Context) error {
+	return c.String(http.StatusOK, controller.msg)
+}
+
+// NewBlogController return BlogController bind with echo engine
+func NewBlogController(e *echo.Echo, msg string) (*BlogController, error) {
+	blog := &BlogController{
+		msg: msg,
+	}
 	e.GET("/blog/hello", blog.hello)
-	return nil
+
+	return blog, nil
 }
