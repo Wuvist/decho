@@ -3,6 +3,7 @@ module github.com/Wuvist/decho
 go 1.13
 
 require (
+	github.com/BurntSushi/toml v0.3.1
 	github.com/google/wire v0.4.0
 	github.com/labstack/echo/v4 v4.1.15
 	golang.org/x/crypto v0.0.0-20200320181102-891825fb96df // indirect
