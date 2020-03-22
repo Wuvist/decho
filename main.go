@@ -24,7 +24,7 @@ type WebApp struct {
 
 // Run the web app
 func (e *WebApp) Run() {
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(e.config.App.Address))
 }
 
 func newMsg() string {
