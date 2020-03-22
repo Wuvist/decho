@@ -9,6 +9,7 @@ import (
 )
 
 func getWebApp() (*WebApp, error) {
-	wire.Build(newEcho, newWebApp, loadTomlConf, controller.NewBlogController, newMsg)
+	wire.Build(newEcho, wire.Struct(new(WebApp), "*"), loadTomlConf,
+		controller.NewBlogController, newMsg)
 	return nil, nil
 }

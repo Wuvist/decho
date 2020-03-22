@@ -35,14 +35,6 @@ func newEcho() *echo.Echo {
 	return echo.New()
 }
 
-func newWebApp(config *conf.Config, e *echo.Echo, blog *controller.BlogController) *WebApp {
-	return &WebApp{
-		e,
-		config,
-		blog,
-	}
-}
-
 func loadTomlConf() (*conf.Config, error) {
 	var conf conf.Config
 	if _, err := toml.DecodeFile("conf.toml", &conf); err != nil {

@@ -12,16 +12,20 @@ import (
 // Injectors from wire.go:
 
 func getWebApp() (*WebApp, error) {
+	echo := newEcho()
 	config, err := loadTomlConf()
 	if err != nil {
 		return nil, err
 	}
-	echo := newEcho()
 	string2 := newMsg()
 	blogController, err := controller.NewBlogController(echo, string2)
 	if err != nil {
 		return nil, err
 	}
-	webApp := newWebApp(config, echo, blogController)
+	webApp := &WebApp{
+		Echo:   echo,
+		config: config,
+		blog:   blogController,
+	}
 	return webApp, nil
 }
