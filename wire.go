@@ -8,7 +8,7 @@ import (
 	"github.com/Wuvist/decho/controller"
 )
 
-func getApp() (*webApp, error) {
+func getWebApp() (*WebApp, error) {
 	wire.Build(newEcho, newWebApp, loadTomlConf, controller.NewBlogController, newMsg)
 	return nil, nil
 }

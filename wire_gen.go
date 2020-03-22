@@ -11,7 +11,7 @@ import (
 
 // Injectors from wire.go:
 
-func getApp() (*webApp, error) {
+func getWebApp() (*WebApp, error) {
 	config, err := loadTomlConf()
 	if err != nil {
 		return nil, err
@@ -22,6 +22,6 @@ func getApp() (*webApp, error) {
 	if err != nil {
 		return nil, err
 	}
-	mainWebApp := newWebApp(config, echo, blogController)
-	return mainWebApp, nil
+	webApp := newWebApp(config, echo, blogController)
+	return webApp, nil
 }

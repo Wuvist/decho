@@ -8,33 +8,35 @@ import (
 )
 
 func main() {
-	app, err := getApp()
+	webApp, err := getWebApp()
 	if err != nil {
 		panic(err)
 	}
-	app.Run()
+	webApp.Run()
+}
+
+// WebApp represent a web application
+type WebApp struct {
+	*echo.Echo
+	config *conf.Config
+	blog   *controller.BlogController
+}
+
+// Run the web app
+func (e *WebApp) Run() {
+	e.Logger.Fatal(e.Start(":1323"))
 }
 
 func newMsg() string {
 	return "bingo"
 }
 
-type webApp struct {
-	*echo.Echo
-	config *conf.Config
-	blog   *controller.BlogController
-}
-
-func (e *webApp) Run() {
-	e.Logger.Fatal(e.Start(":1323"))
-}
-
 func newEcho() *echo.Echo {
 	return echo.New()
 }
 
-func newWebApp(config *conf.Config, e *echo.Echo, blog *controller.BlogController) *webApp {
-	return &webApp{
+func newWebApp(config *conf.Config, e *echo.Echo, blog *controller.BlogController) *WebApp {
+	return &WebApp{
 		e,
 		config,
 		blog,
