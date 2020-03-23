@@ -24,11 +24,12 @@ func getWebApp() (*WebApp, error) {
 	if err != nil {
 		return nil, err
 	}
-	cateController, err := controller.NewCateController(echo)
+	userdefinecategoryQuery := getCategoryDB()
+	cateController, err := controller.NewCateController(echo, bloggerQuery, userdefinecategoryQuery)
 	if err != nil {
 		return nil, err
 	}
-	homeController, err := controller.NewHomeController(echo)
+	homeController, err := controller.NewHomeController(echo, bloggerQuery)
 	if err != nil {
 		return nil, err
 	}

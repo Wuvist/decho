@@ -18,8 +18,12 @@ type CateController struct {
 }
 
 // NewCateController return CateController bind with echo engine
-func NewCateController(e *echo.Echo) (*CateController, error) {
-	cate := &CateController{}
+func NewCateController(e *echo.Echo, bloggers models.BloggerQuery,
+	cates models.UserdefinecategoryQuery) (*CateController, error) {
+	cate := &CateController{
+		bloggers,
+		cates,
+	}
 	e.GET("/cate.go", cate.show)
 
 	return cate, nil

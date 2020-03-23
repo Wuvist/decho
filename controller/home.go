@@ -16,8 +16,10 @@ type HomeController struct {
 }
 
 // NewHomeController return HomeController bind with echo engine
-func NewHomeController(e *echo.Echo) (*HomeController, error) {
-	ctrl := &HomeController{}
+func NewHomeController(e *echo.Echo, blogger models.BloggerQuery) (*HomeController, error) {
+	ctrl := &HomeController{
+		blogger,
+	}
 	e.GET("/", ctrl.show)
 
 	return ctrl, nil
