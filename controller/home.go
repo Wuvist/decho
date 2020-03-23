@@ -18,12 +18,12 @@ type HomeController struct {
 // NewHomeController return HomeController bind with echo engine
 func NewHomeController(e *echo.Echo) (*HomeController, error) {
 	ctrl := &HomeController{}
-	e.GET("/", ctrl.home)
+	e.GET("/", ctrl.show)
 
 	return ctrl, nil
 }
 
-func (ctrl *HomeController) home(c echo.Context) error {
+func (ctrl *HomeController) show(c echo.Context) error {
 	objs, err := ctrl.bloggers(qm.Select("blogname", "id", "nick"),
 		qm.Where("reveal = 1 and blogs > ?", 0),
 		qm.OrderBy("last_post desc")).AllG()
