@@ -1,11 +1,15 @@
 package main
 
 import (
+	"database/sql"
+
 	"github.com/BurntSushi/toml"
 	"github.com/Wuvist/decho/conf"
 	"github.com/Wuvist/decho/controller"
 	"github.com/Wuvist/decho/models"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo/v4"
+	"github.com/volatiletech/sqlboiler/boil"
 )
 
 func main() {
@@ -28,6 +32,11 @@ type WebApp struct {
 
 // Run the web app
 func (e *WebApp) Run() {
+	db, err := sql.Open("mysql", e.config.App.Mysql+"?parseTime=true")
+	if err != nil {
+		panic(err)
+	}
+	boil.SetDB(db)
 	e.Logger.Fatal(e.Start(e.config.App.Address))
 }
 
