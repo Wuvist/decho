@@ -10,6 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo/v4"
 	"github.com/volatiletech/sqlboiler/boil"
+	"github.com/volatiletech/sqlboiler/queries/qm"
 )
 
 func main() {
@@ -62,7 +63,9 @@ func getCategoryDB() models.UserdefinecategoryQuery {
 }
 
 func getLinkDB() models.LinkQuery {
-	return models.Links
+	return func(mods ...qm.QueryMod) models.LinkExecutor {
+		return models.Links(mods...)
+	}
 }
 
 func getCommentDB() models.CommentQuery {

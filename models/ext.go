@@ -15,4 +15,9 @@ type ArticlesQuery func(mods ...qm.QueryMod) articleQuery
 type CommentQuery func(mods ...qm.QueryMod) commentQuery
 
 // LinkQuery defines a func to query comment table
-type LinkQuery func(mods ...qm.QueryMod) linkQuery
+type LinkQuery func(mods ...qm.QueryMod) LinkExecutor
+
+// LinkExecutor for mocking
+type LinkExecutor interface {
+	AllG() (LinkSlice, error)
+}
