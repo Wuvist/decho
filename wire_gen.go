@@ -42,12 +42,17 @@ func getWebApp() (*WebApp, error) {
 	if err != nil {
 		return nil, err
 	}
+	staticController, err := controller.NewStaticController(echo)
+	if err != nil {
+		return nil, err
+	}
 	webApp := &WebApp{
 		Echo:   echo,
 		config: config,
 		blog:   blogController,
 		cate:   cateController,
 		home:   homeController,
+		static: staticController,
 	}
 	return webApp, nil
 }

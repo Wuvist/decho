@@ -23,6 +23,7 @@ type WebApp struct {
 	blog   *controller.BlogController
 	cate   *controller.CateController
 	home   *controller.HomeController
+	static *controller.StaticController
 }
 
 // Run the web app

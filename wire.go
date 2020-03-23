@@ -23,6 +23,7 @@ func getWebApp() (*WebApp, error) {
 		dbProviders,
 		controller.NewBlogController,
 		controller.NewCateController,
-		controller.NewHomeController)
+		controller.NewHomeController,
+		controller.NewStaticController)
 	return nil, nil
 }
