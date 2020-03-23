@@ -1,7 +1,7 @@
 package tpl
 
 import (
-	"github.com/Wuvist/goblog/models"
+	"github.com/Wuvist/decho/models"
 	"github.com/volatiletech/sqlboiler/queries/qm"
 )
 

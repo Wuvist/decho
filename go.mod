@@ -5,7 +5,6 @@ go 1.13
 require (
 	github.com/BurntSushi/toml v0.3.1
 	github.com/DATA-DOG/go-sqlmock v1.4.1 // indirect
-	github.com/Wuvist/goblog v0.0.0-20180830100038-1da2280e7cff
 	github.com/friendsofgo/errors v0.9.2
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
 	github.com/go-sql-driver/mysql v1.5.0
@@ -29,6 +28,5 @@ require (
 	golang.org/x/sys v0.0.0-20200321134203-328b4cd54aae // indirect
 	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543 // indirect
 	gopkg.in/ini.v1 v1.55.0 // indirect
-	gopkg.in/volatiletech/null.v6 v6.0.0-20170828023728-0bef4e07ae1b // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 )

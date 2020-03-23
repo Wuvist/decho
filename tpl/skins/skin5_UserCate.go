@@ -2,7 +2,8 @@ package skins
 
 import (
 	"bytes"
-	"github.com/Wuvist/goblog/tpl"
+
+	"github.com/Wuvist/decho/tpl"
 	"github.com/sipin/gorazor/gorazor"
 )
 

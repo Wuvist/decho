@@ -1,5 +1,5 @@
 @{
-	import "github.com/Wuvist/goblog/tpl"
+	import "github.com/Wuvist/decho/tpl"
 
 	var blogger *tpl.Blogger
 	var blogs []*tpl.BlogSummary
@@ -7,7 +7,7 @@
 
 <html><head>
 <title>@blogger.BlogName</title>
-<link rel="stylesheet" href="/Template/skin5.css" type="text/css"> 
+<link rel="stylesheet" href="/Template/skin5.css" type="text/css">
 <script type="text/javascript" src="/icon.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
@@ -39,7 +39,7 @@
 <TD bgColor="#e0e0b1" height="500" width="150" valign="top"><div class="side">
 <div class="sidetop">
  导航
- </div> 
+ </div>
   <a href="/">博客风</a><BR>
   <a href="/@blogger.Username/">@blogger.BlogName首页</a><BR>
   <a>联系</a><BR>
