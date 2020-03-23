@@ -8,8 +8,15 @@ import (
 	"github.com/Wuvist/decho/controller"
 )
 
+var dbProviders = wire.NewSet(
+	getBloggerDB,
+	getArticalDB,
+	getCategoryDB,
+)
+
 func getWebApp() (*WebApp, error) {
-	wire.Build(newEcho, wire.Struct(new(WebApp), "*"), loadTomlConf, newMsg,
+	wire.Build(newEcho, wire.Struct(new(WebApp), "*"), loadTomlConf,
+		dbProviders,
 		controller.NewBlogController,
 		controller.NewCateController,
 		controller.NewHomeController)

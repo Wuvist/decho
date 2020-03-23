@@ -4,6 +4,7 @@ import (
 	"github.com/BurntSushi/toml"
 	"github.com/Wuvist/decho/conf"
 	"github.com/Wuvist/decho/controller"
+	"github.com/Wuvist/decho/models"
 	"github.com/labstack/echo/v4"
 )
 
@@ -29,10 +30,6 @@ func (e *WebApp) Run() {
 	e.Logger.Fatal(e.Start(e.config.App.Address))
 }
 
-func newMsg() string {
-	return "bingo"
-}
-
 func newEcho() *echo.Echo {
 	return echo.New()
 }
@@ -43,4 +40,17 @@ func loadTomlConf() (*conf.Config, error) {
 		return nil, err
 	}
 	return &conf, nil
+}
+
+// db providers
+func getBloggerDB() models.BloggerQuery {
+	return models.Bloggers
+}
+
+func getArticalDB() models.ArticlesQuery {
+	return models.Articles
+}
+
+func getCategoryDB() models.UserdefinecategoryQuery {
+	return models.Userdefinecategories
 }

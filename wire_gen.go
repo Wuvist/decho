@@ -7,6 +7,7 @@ package main
 
 import (
 	"github.com/Wuvist/decho/controller"
+	"github.com/google/wire"
 )
 
 // Injectors from wire.go:
@@ -17,8 +18,9 @@ func getWebApp() (*WebApp, error) {
 	if err != nil {
 		return nil, err
 	}
-	string2 := newMsg()
-	blogController, err := controller.NewBlogController(echo, string2)
+	bloggerQuery := getBloggerDB()
+	articlesQuery := getArticalDB()
+	blogController, err := controller.NewBlogController(echo, bloggerQuery, articlesQuery)
 	if err != nil {
 		return nil, err
 	}
@@ -39,3 +41,11 @@ func getWebApp() (*WebApp, error) {
 	}
 	return webApp, nil
 }
+
+// wire.go:
+
+var dbProviders = wire.NewSet(
+	getBloggerDB,
+	getArticalDB,
+	getCategoryDB,
+)
