@@ -7,6 +7,7 @@ package main
 
 import (
 	"github.com/Wuvist/decho/controller"
+	"github.com/Wuvist/decho/tpl"
 	"github.com/google/wire"
 )
 
@@ -20,12 +21,20 @@ func getWebApp() (*WebApp, error) {
 	}
 	bloggerQuery := getBloggerDB()
 	articlesQuery := getArticalDB()
-	blogController, err := controller.NewBlogController(echo, bloggerQuery, articlesQuery)
+	commentQuery := getCommentDB()
+	userdefinecategoryQuery := getCategoryDB()
+	linkQuery := getLinkDB()
+	viewModel := &tpl.ViewModel{
+		Articles: articlesQuery,
+		Comments: commentQuery,
+		Cates:    userdefinecategoryQuery,
+		Links:    linkQuery,
+	}
+	blogController, err := controller.NewBlogController(echo, bloggerQuery, articlesQuery, viewModel)
 	if err != nil {
 		return nil, err
 	}
-	userdefinecategoryQuery := getCategoryDB()
-	cateController, err := controller.NewCateController(echo, bloggerQuery, userdefinecategoryQuery)
+	cateController, err := controller.NewCateController(echo, bloggerQuery, userdefinecategoryQuery, viewModel)
 	if err != nil {
 		return nil, err
 	}
@@ -45,8 +54,9 @@ func getWebApp() (*WebApp, error) {
 
 // wire.go:
 
-var dbProviders = wire.NewSet(
-	getBloggerDB,
+var dbProviders = wire.NewSet(wire.Struct(new(tpl.ViewModel), "*"), getBloggerDB,
 	getArticalDB,
 	getCategoryDB,
+	getCommentDB,
+	getLinkDB,
 )

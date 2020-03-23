@@ -54,3 +54,11 @@ func getArticalDB() models.ArticlesQuery {
 func getCategoryDB() models.UserdefinecategoryQuery {
 	return models.Userdefinecategories
 }
+
+func getLinkDB() models.LinkQuery {
+	return models.Links
+}
+
+func getCommentDB() models.CommentQuery {
+	return models.Comments
+}

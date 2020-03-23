@@ -15,6 +15,7 @@ import (
 type BlogController struct {
 	bloggers models.BloggerQuery
 	articles models.ArticlesQuery
+	vm       *tpl.ViewModel
 }
 
 func (ctrl *BlogController) show(c echo.Context) error {
@@ -30,13 +31,13 @@ func (ctrl *BlogController) show(c echo.Context) error {
 		return c.String(http.StatusNotFound, "找不到博客")
 	}
 
-	blogger := tpl.NewBloggerFromDb(bloggerData)
+	blogger := ctrl.vm.NewBloggerFromDb(bloggerData)
 	if strings.ToLower(blogger.Username) != blogerUsername {
 		return c.String(http.StatusNotFound, "找不到网志")
 	}
 
-	blog := tpl.NewBlogFromDb(blogData)
-	comments := tpl.GetBlogComments(blogData.Index)
+	blog := ctrl.vm.NewBlogFromDb(blogData)
+	comments := ctrl.vm.GetBlogComments(blogData.Index)
 
 	page := skins.Skin5_comment(blogger, blog, comments)
 
@@ -54,9 +55,9 @@ func (ctrl *BlogController) showBlogger(c echo.Context) error {
 		return c.String(http.StatusNotFound, "找不到博客")
 	}
 
-	blogger := tpl.NewBloggerFromDb(bloggerData)
+	blogger := ctrl.vm.NewBloggerFromDb(bloggerData)
 
-	blogs := tpl.GetBlogSummariesFromBlogger(bloggerData.Index)
+	blogs := ctrl.vm.GetBlogSummariesFromBlogger(bloggerData.Index)
 
 	page := skins.Skin5_default(blogger, blogs)
 
@@ -65,10 +66,11 @@ func (ctrl *BlogController) showBlogger(c echo.Context) error {
 
 // NewBlogController return BlogController bind with echo engine
 func NewBlogController(e *echo.Echo, bloggers models.BloggerQuery,
-	articles models.ArticlesQuery) (*BlogController, error) {
+	articles models.ArticlesQuery, vm *tpl.ViewModel) (*BlogController, error) {
 	blog := &BlogController{
 		bloggers,
 		articles,
+		vm,
 	}
 	e.GET("/blog.go", blog.show)
 	e.GET("/blogger.go", blog.showBlogger)

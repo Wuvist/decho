@@ -10,3 +10,9 @@ type UserdefinecategoryQuery func(mods ...qm.QueryMod) userdefinecategoryQuery
 
 // ArticlesQuery defines a func to query article table
 type ArticlesQuery func(mods ...qm.QueryMod) articleQuery
+
+// CommentQuery defines a func to query comment table
+type CommentQuery func(mods ...qm.QueryMod) commentQuery
+
+// LinkQuery defines a func to query comment table
+type LinkQuery func(mods ...qm.QueryMod) linkQuery

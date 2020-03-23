@@ -15,14 +15,16 @@ import (
 type CateController struct {
 	bloggers models.BloggerQuery
 	cates    models.UserdefinecategoryQuery
+	vm       *tpl.ViewModel
 }
 
 // NewCateController return CateController bind with echo engine
 func NewCateController(e *echo.Echo, bloggers models.BloggerQuery,
-	cates models.UserdefinecategoryQuery) (*CateController, error) {
+	cates models.UserdefinecategoryQuery, vm *tpl.ViewModel) (*CateController, error) {
 	cate := &CateController{
 		bloggers,
 		cates,
+		vm,
 	}
 	e.GET("/cate.go", cate.show)
 
@@ -42,7 +44,7 @@ func (ctrl *CateController) show(c echo.Context) error {
 		return c.String(http.StatusNotFound, "找不到博客")
 	}
 
-	blogger := tpl.NewBloggerFromDb(bloggerData)
+	blogger := ctrl.vm.NewBloggerFromDb(bloggerData)
 	if strings.ToLower(blogger.Username) != blogerUsername {
 		return c.String(http.StatusNotFound, "找不到分类")
 	}
@@ -51,7 +53,7 @@ func (ctrl *CateController) show(c echo.Context) error {
 	cate.CateID = cateData.Index
 	cate.CateName = cateData.Cate
 
-	blogs := tpl.GetBlogSummariesFromCate(cate.CateID)
+	blogs := ctrl.vm.GetBlogSummariesFromCate(cate.CateID)
 
 	page := skins.Skin5_UserCate(blogger, cate, blogs)
 

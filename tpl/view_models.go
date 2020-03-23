@@ -25,12 +25,20 @@ type Blog struct {
 	Adddate  string
 }
 
+// ViewModel is helper struct for rendering views
+type ViewModel struct {
+	Articles models.ArticlesQuery
+	Comments models.CommentQuery
+	Cates    models.UserdefinecategoryQuery
+	Links    models.LinkQuery
+}
+
 // GetBlogSummariesFromCate get a blogs of a blog category
-func GetBlogSummariesFromCate(cateID int) []*BlogSummary {
-	articleData, _ := models.ArticlesG(
+func (vm *ViewModel) GetBlogSummariesFromCate(cateID int) []*BlogSummary {
+	articleData, _ := vm.Articles(
 		qm.Select("index", "title", "add_date", "Comment"),
 		qm.Where("`cate` = ?", cateID),
-		qm.OrderBy("`index` desc")).All()
+		qm.OrderBy("`index` desc")).AllG()
 
 	blogs := make([]*BlogSummary, len(articleData))
 	for i := 0; i < len(articleData); i++ {
@@ -48,12 +56,12 @@ func GetBlogSummariesFromCate(cateID int) []*BlogSummary {
 }
 
 // GetBlogSummariesFromBlogger get top 20 blogs of a blogger
-func GetBlogSummariesFromBlogger(bloggerID int) []*BlogSummary {
-	articleData, _ := models.ArticlesG(
+func (vm *ViewModel) GetBlogSummariesFromBlogger(bloggerID int) []*BlogSummary {
+	articleData, _ := vm.Articles(
 		qm.Select("index", "title", "add_date", "Comment"),
 		qm.Where("`blogger` = ?", bloggerID),
 		qm.OrderBy("`index` desc"),
-		qm.Limit(20)).All()
+		qm.Limit(20)).AllG()
 
 	blogs := make([]*BlogSummary, len(articleData))
 	for i := 0; i < len(articleData); i++ {
@@ -71,10 +79,10 @@ func GetBlogSummariesFromBlogger(bloggerID int) []*BlogSummary {
 }
 
 // GetBlogComments get all comments of a blog
-func GetBlogComments(blogID int) []*Comment {
-	objs, _ := models.CommentsG(
+func (vm *ViewModel) GetBlogComments(blogID int) []*Comment {
+	objs, _ := vm.Comments(
 		qm.Where("`article` = ?", blogID),
-		qm.OrderBy("`index` desc")).All()
+		qm.OrderBy("`index` desc")).AllG()
 
 	comments := make([]*Comment, len(objs))
 	for i := 0; i < len(objs); i++ {
@@ -89,7 +97,7 @@ func GetBlogComments(blogID int) []*Comment {
 }
 
 // NewBlogFromDb create blog struct from db model
-func NewBlogFromDb(data *models.Article) *Blog {
+func (vm *ViewModel) NewBlogFromDb(data *models.Article) *Blog {
 	b := &Blog{}
 	b.Title = data.Title.String
 	if b.Title == "" {
@@ -98,7 +106,7 @@ func NewBlogFromDb(data *models.Article) *Blog {
 	b.Content = data.Content.String
 	b.Adddate = data.AddDate.Time.Format(dateFormat)
 
-	cateData, _ := models.UserdefinecategoriesG(qm.Where("`index` = ?", data.Cate.Int)).One()
+	cateData, _ := vm.Cates(qm.Where("`index` = ?", data.Cate.Int)).OneG()
 	if cateData != nil {
 		b.CateID = cateData.Index
 		b.CateName = cateData.Cate
@@ -131,8 +139,8 @@ type Blogger struct {
 	Links        []*Link
 }
 
-func getBloggerCates(bloggerID int) []*Cate {
-	objs, _ := models.UserdefinecategoriesG(qm.Where("`blogger` = ?", bloggerID)).All()
+func (vm *ViewModel) getBloggerCates(bloggerID int) []*Cate {
+	objs, _ := vm.Cates(qm.Where("`blogger` = ?", bloggerID)).AllG()
 	cates := make([]*Cate, len(objs))
 	for i := 0; i < len(objs); i++ {
 		cate := &Cate{}
@@ -146,9 +154,9 @@ func getBloggerCates(bloggerID int) []*Cate {
 	return cates
 }
 
-func getBloggerLinks(bloggerID int) []*Link {
-	objs, _ := models.LinksG(qm.Where("`blogger` = ? and reveal = 1",
-		bloggerID)).All()
+func (vm *ViewModel) getBloggerLinks(bloggerID int) []*Link {
+	objs, _ := vm.Links(qm.Where("`blogger` = ? and reveal = 1",
+		bloggerID)).AllG()
 	links := make([]*Link, len(objs))
 	for i := 0; i < len(objs); i++ {
 		link := &Link{}
@@ -162,7 +170,7 @@ func getBloggerLinks(bloggerID int) []*Link {
 }
 
 // NewBloggerFromDb create blogger struct from db model
-func NewBloggerFromDb(data *models.Blogger) *Blogger {
+func (vm *ViewModel) NewBloggerFromDb(data *models.Blogger) *Blogger {
 	b := &Blogger{}
 	b.Username = data.ID
 	b.Nick = data.Nick.String
@@ -170,8 +178,8 @@ func NewBloggerFromDb(data *models.Blogger) *Blogger {
 	b.BlogName = data.Blogname
 	b.VisitorCount = data.Visitor
 
-	b.Cates = getBloggerCates(data.Index)
-	b.Links = getBloggerLinks(data.Index)
+	b.Cates = vm.getBloggerCates(data.Index)
+	b.Links = vm.getBloggerLinks(data.Index)
 
 	return b
 }
