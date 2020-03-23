@@ -13,6 +13,7 @@ The idea is to build modularized & testable web applicaiton, and it's inspired b
 * [ ] Add sql db to controller
   * [ ] Add mock
 * [ ] Add test case
-* [ ] How to add multiple controller?
+* [X] How to add multiple controller?
 * [ ] provider set for controller
+* [ ] How to make config loading as an lib?
 * [X] refactor newWebApp with field injection

@@ -20,6 +20,7 @@ type WebApp struct {
 	*echo.Echo
 	config *conf.Config
 	blog   *controller.BlogController
+	cate   *controller.CateController
 }
 
 // Run the web app

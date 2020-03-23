@@ -22,10 +22,15 @@ func getWebApp() (*WebApp, error) {
 	if err != nil {
 		return nil, err
 	}
+	cateController, err := controller.NewCateController(echo)
+	if err != nil {
+		return nil, err
+	}
 	webApp := &WebApp{
 		Echo:   echo,
 		config: config,
 		blog:   blogController,
+		cate:   cateController,
 	}
 	return webApp, nil
 }
