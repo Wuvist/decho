@@ -9,12 +9,17 @@ import (
 	"github.com/Wuvist/decho/controller"
 	"github.com/Wuvist/decho/tpl"
 	"github.com/google/wire"
+	"github.com/labstack/echo/v4"
+)
+
+import (
+	_ "github.com/go-sql-driver/mysql"
 )
 
 // Injectors from wire.go:
 
 func getWebApp() (*WebApp, error) {
-	echo := newEcho()
+	echoEcho := echo.New()
 	config, err := loadTomlConf()
 	if err != nil {
 		return nil, err
@@ -30,24 +35,24 @@ func getWebApp() (*WebApp, error) {
 		Cates:    userdefinecategoryQuery,
 		Links:    linkQuery,
 	}
-	blogController, err := controller.NewBlogController(echo, bloggerQuery, articlesQuery, viewModel)
+	blogController, err := controller.NewBlogController(echoEcho, bloggerQuery, articlesQuery, viewModel)
 	if err != nil {
 		return nil, err
 	}
-	cateController, err := controller.NewCateController(echo, bloggerQuery, userdefinecategoryQuery, viewModel)
+	cateController, err := controller.NewCateController(echoEcho, bloggerQuery, userdefinecategoryQuery, viewModel)
 	if err != nil {
 		return nil, err
 	}
-	homeController, err := controller.NewHomeController(echo, bloggerQuery)
+	homeController, err := controller.NewHomeController(echoEcho, bloggerQuery)
 	if err != nil {
 		return nil, err
 	}
-	staticController, err := controller.NewStaticController(echo)
+	staticController, err := controller.NewStaticController(echoEcho)
 	if err != nil {
 		return nil, err
 	}
 	webApp := &WebApp{
-		Echo:   echo,
+		Echo:   echoEcho,
 		config: config,
 		blog:   blogController,
 		cate:   cateController,

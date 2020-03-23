@@ -40,10 +40,6 @@ func (e *WebApp) Run() {
 	e.Logger.Fatal(e.Start(e.config.App.Address))
 }
 
-func newEcho() *echo.Echo {
-	return echo.New()
-}
-
 func loadTomlConf() (*conf.Config, error) {
 	var conf conf.Config
 	if _, err := toml.DecodeFile("conf.toml", &conf); err != nil {
