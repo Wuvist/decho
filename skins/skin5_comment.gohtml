@@ -1,0 +1,87 @@
+@{
+	import "github.com/Wuvist/goblog/tpl"
+
+	var blogger *tpl.Blogger
+	var blog *tpl.Blog
+	var comments []*tpl.Comment
+}
+<html><head>
+<TITLE>@blog.Title - @blog.CateName - @blogger.BlogName</TITLE>
+<link rel="stylesheet" href="/Template/skin5.css" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body bgcolor="ffffff" marginwidth="0" marginheight="0">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr bgcolor="#ffffff">
+<td class="name"  width="100%" height="60">@blogger.BlogName
+</td>
+</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr bgcolor="#990000">
+<td class="description" align="right" width="100%" height="30">@blogger.Info</td>
+</tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0"><tr><td valign="top">
+<div class="blog">
+<p class="title">@blog.Title</p>
+	   @raw(blog.Content)
+	   <div id="tags">@blog.Tags</div>
+	   <div class="com">@blogger.Nick @@ @blog.Adddate<br><a href='/@blogger.Username/cate@(blog.CateID).shtml'>查看本分类的所有网志:@(blog.CateName)</a></div><br><br>
+	   @for _, comment := range comments {
+	   <div>
+	   <div class="post">	<div>@comment.Author 在 @comment.Adddate 说:</div>
+		<br>
+		@raw(comment.Content)<hr />
+	   </div></div>
+		}
+</div>
+</div>
+</TD>
+<TD bgColor="#e0e0b1" height="500" width="150" valign="top"><div class="side">
+<div class="sidetop">
+ 导航
+ </div> 
+  <a href="/">博客风</a><BR>
+  <a href="/@blogger.Username/">@blogger.BlogName首页</a><BR>
+  <a>联系</a><BR>
+<br>
+
+<div class="sidetop"><br>
+个人档案
+</div>
+<div align='center'><br><img src='//storage.googleapis.com/blogwind/images/userpic/@(blogger.Username).jpg'></div>
+@blogger.Info
+<br>
+<br><br><br><div class="sidetop">
+网志分类
+</div>
+@for _, cate := range blogger.Cates {
+	<a href = "/@blogger.Username/cate@(cate.CateID).shtml" >@cate.CateName</a><span>(</span>@cate.BlogCount<span>)</span><br>
+}
+<br><br><br><div class="sidetop">
+网志存档
+</div>
+<!-- <asp:Repeater id="archive" runat="server">
+	<ItemTemplate>
+		<a href = "/<%# uid & "/" & Container.DataItem("year") %>/<%# Container.DataItem("month") %>/" ><%# Container.DataItem("year") %>年<%# Container.DataItem("month") %>月</a><br>
+	</ItemTemplate>
+</asp:Repeater> -->
+
+<br><br><br><div class="sidetop">
+个人链接
+</div>
+@for _, link := range blogger.Links {
+		<a href="@link.URL" target="_blank">@link.Link</a><br>
+}
+<p class="nav">累计浏览: @blogger.VisitorCount</p>
+<br>
+<br>
+</div>
+</TD>
+</TR>
+</TABLE>
+</body>
+</html>
