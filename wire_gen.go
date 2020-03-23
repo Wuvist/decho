@@ -26,11 +26,16 @@ func getWebApp() (*WebApp, error) {
 	if err != nil {
 		return nil, err
 	}
+	homeController, err := controller.NewHomeController(echo)
+	if err != nil {
+		return nil, err
+	}
 	webApp := &WebApp{
 		Echo:   echo,
 		config: config,
 		blog:   blogController,
 		cate:   cateController,
+		home:   homeController,
 	}
 	return webApp, nil
 }

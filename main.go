@@ -21,6 +21,7 @@ type WebApp struct {
 	config *conf.Config
 	blog   *controller.BlogController
 	cate   *controller.CateController
+	home   *controller.HomeController
 }
 
 // Run the web app

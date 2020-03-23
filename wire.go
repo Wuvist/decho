@@ -11,6 +11,7 @@ import (
 func getWebApp() (*WebApp, error) {
 	wire.Build(newEcho, wire.Struct(new(WebApp), "*"), loadTomlConf, newMsg,
 		controller.NewBlogController,
-		controller.NewCateController)
+		controller.NewCateController,
+		controller.NewHomeController)
 	return nil, nil
 }
