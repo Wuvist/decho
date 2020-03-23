@@ -13,7 +13,9 @@ The idea is to build modularized & testable web applicaiton, and it's inspired b
 # Todo
 
 * [X] Add sql db to controller
-  * [ ] Add mock
+* [ ] Add mock
+  * [ ] mock db
+  * [ ] mock service
 * [ ] Add test case
 * [X] How to add multiple controller?
 * [X] provider set for controller
