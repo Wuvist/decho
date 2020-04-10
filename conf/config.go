@@ -1,11 +1,8 @@
 package conf
 
-type app struct {
+// App stores application configuration
+type App struct {
+	_       string `prefix:"app"`
 	Address string
 	Mysql   string
-}
-
-// Config struct stores configuration data
-type Config struct {
-	App app
 }

@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestLoadConfig(t *testing.T) {
 	config, err := loadTomlConf()
@@ -8,7 +10,7 @@ func TestLoadConfig(t *testing.T) {
 		t.Error(err)
 	}
 
-	if config.App.Address != ":1323" {
-		t.Errorf("Invalid address: %s", config.App.Address)
+	if config.Address != ":1323" {
+		t.Errorf("Invalid address: %s", config.Address)
 	}
 }

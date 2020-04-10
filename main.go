@@ -3,10 +3,10 @@ package main
 import (
 	"database/sql"
 
-	"github.com/BurntSushi/toml"
 	"github.com/Wuvist/decho/conf"
 	"github.com/Wuvist/decho/controller"
 	"github.com/Wuvist/decho/models"
+	"github.com/Wuvist/dechoconf"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo/v4"
 	"github.com/volatiletech/sqlboiler/boil"
@@ -24,7 +24,7 @@ func main() {
 // WebApp represent a web application
 type WebApp struct {
 	*echo.Echo
-	config *conf.Config
+	config *conf.App
 	blog   *controller.BlogController
 	cate   *controller.CateController
 	home   *controller.HomeController
@@ -33,17 +33,17 @@ type WebApp struct {
 
 // Run the web app
 func (e *WebApp) Run() {
-	db, err := sql.Open("mysql", e.config.App.Mysql+"?parseTime=true")
+	db, err := sql.Open("mysql", e.config.Mysql+"?parseTime=true")
 	if err != nil {
 		panic(err)
 	}
 	boil.SetDB(db)
-	e.Logger.Fatal(e.Start(e.config.App.Address))
+	e.Logger.Fatal(e.Start(e.config.Address))
 }
 
-func loadTomlConf() (*conf.Config, error) {
-	var conf conf.Config
-	if _, err := toml.DecodeFile("conf.toml", &conf); err != nil {
+func loadTomlConf() (*conf.App, error) {
+	var conf conf.App
+	if err := dechoconf.DecodeTomlFile("conf.toml", &conf); err != nil {
 		return nil, err
 	}
 	return &conf, nil
